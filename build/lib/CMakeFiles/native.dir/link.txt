@@ -1,0 +1,1 @@
+/usr/bin/c++ -fPIC -shared -Wl,-soname,libnative.so -o libnative.so CMakeFiles/native.dir/hello.cpp.o  ../libpio.a 

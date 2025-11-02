@@ -1,0 +1,2 @@
+/usr/bin/ar qc libpio.a CMakeFiles/pio.dir/piolib.c.o CMakeFiles/pio.dir/library_piochips.c.o CMakeFiles/pio.dir/pio_rp1.c.o
+/usr/bin/ranlib libpio.a
