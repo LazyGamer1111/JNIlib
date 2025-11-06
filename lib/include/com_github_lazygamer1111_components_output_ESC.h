@@ -10,26 +10,26 @@ extern "C" {
 /*
  * Class:     com_github_lazygamer1111_components_output_ESC
  * Method:    init_SM
- * Signature: (III)V
+ * Signature: (II)I
  */
-JNIEXPORT void JNICALL Java_com_github_lazygamer1111_components_output_ESC_init_1SM
+JNIEXPORT jint JNICALL Java_com_github_lazygamer1111_components_output_ESC_init_1SM
   (JNIEnv *, jobject, jint, jint);
 
 /*
  * Class:     com_github_lazygamer1111_components_output_ESC
  * Method:    put
- * Signature: (S)V
+ * Signature: (IS)V
  */
 JNIEXPORT void JNICALL Java_com_github_lazygamer1111_components_output_ESC_put
-  (JNIEnv *, jobject, jshort);
+  (JNIEnv *, jobject, jint, jshort);
 
 /*
  * Class:     com_github_lazygamer1111_components_output_ESC
  * Method:    pop
- * Signature: ()S
+ * Signature: (I)S
  */
 JNIEXPORT jshort JNICALL Java_com_github_lazygamer1111_components_output_ESC_pop
-  (JNIEnv *, jobject);
+  (JNIEnv *, jobject, jint);
 
 #ifdef __cplusplus
 }

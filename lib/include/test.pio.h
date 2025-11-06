@@ -12,29 +12,30 @@
 // DSHOT //
 // ----- //
 
-#define wrap_target 0
-#define wrap 2
-
-#define DSHOT_offset_start 0u
+#define DSHOT_wrap_target 0
+#define DSHOT_wrap 5
 
 static const uint16_t DSHOT_program_instructions[] = {
             //     .wrap_target
-            0x80a0, //  0: pull   block                      
-            0x6001, //  1: out    pins, 1                    
-            0x0000, //  2: jmp    0                          
-                    //     .wrap
+    0x80a0, //  0: pull   block                      
+    0xe02f, //  1: set    x, 15                      
+    0xe001, //  2: set    pins, 1                    
+    0x6001, //  3: out    pins, 1                    
+    0xe000, //  4: set    pins, 0                    
+    0x0042, //  5: jmp    x--, 2                     
+            //     .wrap
 };
 
 #if !PICO_NO_HARDWARE
 static const struct pio_program DSHOT_program = {
     .instructions = DSHOT_program_instructions,
-    .length = 3,
+    .length = 6,
     .origin = -1,
 };
 
 static inline pio_sm_config DSHOT_program_get_default_config(uint offset) {
     pio_sm_config c = pio_get_default_sm_config();
-    sm_config_set_wrap(&c, offset + wrap_target, offset + wrap);
+    sm_config_set_wrap(&c, offset + DSHOT_wrap_target, offset + DSHOT_wrap);
     return c;
 }
 #endif

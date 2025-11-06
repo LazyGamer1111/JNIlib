@@ -1,0 +1,34 @@
+.program DSHOT
+
+.define bitsPerFrame 15     ; Constant for the amount of bits that are in a DSHOT frame = 16 normally
+                            ; 15 because 0 is still counted: counted before subtraction
+
+.wrap_target
+start:
+    pull block
+    set x, bitsPerFrame     ; Set x to bitsPerFrame to stop loop after 16 bits
+loop:
+    set pins, 1             ; Set pins to 1 for 1 cycle (would be 0 in frame)
+    out pins, 1             ; Increase time to send a 1
+    set pins, 0             ; Set the pin back to 0 as pause
+    jmp x--, loop
+    .wrap
+
+% c-sdk {
+static inline void hello_program_init(PIO pio, uint sm, uint offset, uint pin) {
+    pio_sm_config c = hello_program_get_default_config(offset);
+
+    // Map the state machine's OUT pin group to one pin, namely the `pin`
+    // parameter to this function.
+    sm_config_set_out_pins(&c, pin, 1);
+    // Set this pin's GPIO function (connect PIO to the pad)
+    pio_gpio_init(pio, pin);
+    // Set the pin direction to output at the PIO
+    pio_sm_set_consecutive_pindirs(pio, sm, pin, 1, true);
+
+    // Load our configuration, and jump to the start of the program
+    pio_sm_init(pio, sm, offset, &c);
+    // Set the state machine running
+    pio_sm_set_enabled(pio, sm, true);
+}
+%}
